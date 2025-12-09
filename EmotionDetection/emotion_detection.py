@@ -6,7 +6,8 @@ def emotion_detector(text_to_analyze):
     my_object = { "raw_document": { "text": text_to_analyze } }
 
     response = requests.post(URL, json = my_object, headers = HEADER)
-    formatted_response = json.loads(response.text)     
+    formatted_response = json.loads(response.text)
+    print("response formatted.")
     filtered_response = formatted_response['emotionPredictions'][0]['emotion']   # extracting all emotions key-value pairs
 
     # efficient 2nd approach using max():
