@@ -8,10 +8,7 @@ def emotion_detector(text_to_analyze):
     response = requests.post(URL, json = my_object, headers = HEADER)
     formatted_response = json.loads(response.text)
        
-    filtered_response = formatted_response['emotionPredictions'][0]['emotion']
-    
-    # efficient approach:
-    dominant_emotion = max(filtered_response, key = filtered_response.get)
+    filtered_response = formatted_response['emotionPredictions'][0]['emotion']   # extracting all emotions key-value pairs
     """
     1st approach: (works)
     dominant_emotion = ""
@@ -21,8 +18,13 @@ def emotion_detector(text_to_analyze):
             dominant_score = value
             dominant_emotion = key
     """
+    # efficient 2nd approach using max():
+    dominant_emotion = max(filtered_response, key = filtered_response.get)   
     filtered_response.update({ "dominant_emotion": dominant_emotion })
+
     return filtered_response
+
+
 
 """
   "emotionPredictions": [
