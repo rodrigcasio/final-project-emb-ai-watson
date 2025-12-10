@@ -14,22 +14,27 @@ def emotion_detector(text_to_analyze):
             "sadness": None,
             "dominant_emotion": None
             }
+    # Error handling:
+    if response.status_code == 400:
+        return failure_response
     try:
         formatted_response = json.loads(response.text)
         print('response formatted.')
     except json.JSONDecodeError:
         return failure_response
-
     if 'emotionPredictions' not in formatted_response or not formatted_response['emotionPredictions']:
         return failure_response
                 
     filtered_response = formatted_response['emotionPredictions'][0]['emotion']   # extracting all emotions key-value pairs
-    
     # efficient 2nd approach using max():
     dominant_emotion = max(filtered_response, key = filtered_response.get)   
     filtered_response.update({ "dominant_emotion": dominant_emotion })
 
     return filtered_response
+
+
+
+
 
 """
 First Aproach for emotion_detector
